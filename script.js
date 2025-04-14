@@ -1,124 +1,216 @@
-const songsList = [
-  {
-      name: "Jazz In Paris",
-      artist: "Media Right Productions",
-      src: "assets/1.mp3",
-      cover: "assets/1.jpg"
-  },
-  {
-      name: "Blue Skies",
-      artist: "Silent Partner",
-      src: "assets/2.mp3",
-      cover: "assets/2.jpg"
-  },
-  {
-      name: "Crimson Fly",
-      artist: "Huma-Huma",
-      src: "assets/3.mp3",
-      cover: "assets/3.jpg"
-  },
-  {
-      name: "Dhoom Taana",
-      artist: "Kumaar",
-      src: "assets/4.mp3",
-      cover: "assets/4.jpg"
-  },
-  {
-      name: "The Night We Met",
-      artist: "Lord Huron",
-      src: "assets/6.mp3",
-      cover: "assets/6.jpg" 
-  },
-  {
-      name: "Hind Ke Sitara",
-      artist: "Manoj Tiwari, Anurag Saikia",
-      src: "assets/7.mp3",
-      cover: "assets/7.jpg" 
-  }
-];
+document.addEventListener('DOMContentLoaded', function () {
 
-const artistName = document.querySelector('.artist-name');
-const musicName = document.querySelector('.song-name');
-const fillBar = document.querySelector('.fill-bar');
-const time = document.querySelector('.time');
-const cover = document.getElementById('cover');
-const playBtn = document.getElementById('play');
-const prevBtn = document.getElementById('prev');
-const nextBtn = document.getElementById('next');
-const prog = document.querySelector('.progress-bar');
+    const songs = [
+        {
+            id: 1,
+            name: 'As It Was',
+            artist: 'Harry Styles',
+            album: "Harry's House",
+            duration: '2:47',
+            cover: '/assets/1.jpg',
+            audio: '/assets/Harry Styles - As It Was (Official Video).mp3'
+        },
+        {
+            id: 2,
+            name: 'Blinding Lights',
+            artist: 'The Weeknd',
+            album: 'After Hours',
+            duration: '3:20',
+            cover: '/assets/2.jpg',
+            audio: '/assets/The Weeknd - Blinding Lights (Official Video).mp3'
+        },
+        {
+            id: 3,
+            name: 'Bad Habit',
+            artist: 'Steve Lacy',
+            album: 'Gemini Rights',
+            duration: '3:52',
+            cover: '/assets/3.jpg',
+            audio: '/assets/Ed Sheeran - Bad Habits [Official Video].mp3'
+        },
+        {
+            id: 4,
+            name: 'Heat Waves',
+            artist: 'Glass Animals',
+            album: 'Dreamland',
+            duration: '3:59',
+            cover: '/assets/4.jpg',
+            audio: '/assets/Glass Animals - Heat Waves (Official Video).mp3'
+        },
+        {
+            id: 5,
+            name: 'Stay',
+            artist: 'The Kid LAROI, Justin Bieber',
+            album: 'OVER YOU',
+            duration: '2:21',
+            cover: '/assets/5.jpg',
+            audio: '/assets/The Kid LAROI, Justin Bieber - STAY (Official Video).mp3'
+        }
+    ];
 
-let song = new Audio();
-let currentSong = 0;
-let playing = false;
 
-document.addEventListener('DOMContentLoaded', () => {
-  loadSong(currentSong);
-  song.addEventListener('timeupdate', updateProgress);
-  song.addEventListener('ended', nextSong);
-  prevBtn.addEventListener('click', prevSong);
-  nextBtn.addEventListener('click', nextSong);
-  playBtn.addEventListener('click', togglePlayPause);
-  prog.addEventListener('click', seek);
+    const songRows = document.querySelectorAll('.song-row');
+    const playPauseBtn = document.getElementById('play-pause-btn');
+    const progressBar = document.querySelector('.progress');
+    const progressHandle = document.getElementById('progress-handle');
+    const volumeLevel = document.getElementById('volume-level');
+    const volumeHandle = document.getElementById('volume-handle');
+    const currentSongImg = document.getElementById('current-song-img');
+    const currentSongName = document.getElementById('current-song-name');
+    const currentSongArtist = document.getElementById('current-song-artist');
+    const timeElapsed = document.getElementById('time-elapsed');
+    const timeTotal = document.getElementById('time-total');
+    const nextBtn = document.getElementById('next-btn');
+    const prevBtn = document.getElementById('prev-btn');
+    const shuffleBtn = document.getElementById('shuffle-btn'); 
+    const repeatBtn = document.getElementById('repeat-btn');   
+
+
+    let isShuffle = false;
+    let isRepeat = false;
+    const audio = new Audio();
+    let currentSongId = null;
+    let isPlaying = false;
+    let volume = 70;
+    updateVolumeUI();
+    audio.volume = volume / 100;
+
+    songRows.forEach(row => {
+        row.addEventListener('click', () => {
+            const songId = parseInt(row.getAttribute('data-song-id'));
+            playSong(songId);
+        });
+    });
+
+    playPauseBtn.addEventListener('click', togglePlayPause);
+
+    document.querySelector('.progress-bar').addEventListener('click', (e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const percentage = clickX / rect.width;
+        audio.currentTime = percentage * audio.duration;
+    });
+
+    document.querySelector('.volume-bar').addEventListener('click', (e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        volume = (clickX / rect.width) * 100;
+        audio.volume = volume / 100;
+        updateVolumeUI();
+    });
+
+
+    shuffleBtn.addEventListener('click', () => {
+        isShuffle = !isShuffle;
+        shuffleBtn.classList.toggle('active', isShuffle);
+    });
+
+    repeatBtn.addEventListener('click', () => {
+        isRepeat = !isRepeat;
+        repeatBtn.classList.toggle('active', isRepeat);
+    });
+
+
+    function playSong(songId) {
+        const song = songs.find(s => s.id === songId);
+        if (!song) return;
+
+        audio.src = song.audio;
+        audio.play();
+        isPlaying = true;
+        currentSongId = songId;
+
+        currentSongImg.src = song.cover;
+        currentSongName.textContent = song.name;
+        currentSongArtist.textContent = song.artist;
+
+        songRows.forEach(row => {
+            const rowId = parseInt(row.getAttribute('data-song-id'));
+            row.classList.toggle('active', rowId === songId);
+        });
+
+        updatePlayPauseButton();
+    }
+
+    function togglePlayPause() {
+        if (!audio.src && currentSongId === null) {
+            playSong(1);
+            return;
+        }
+
+        if (audio.paused) {
+            audio.play();
+            isPlaying = true;
+        } else {
+            audio.pause();
+            isPlaying = false;
+        }
+
+        updatePlayPauseButton();
+    }
+
+    function updatePlayPauseButton() {
+        const icon = playPauseBtn.querySelector('.material-symbols-outlined');
+        icon.textContent = isPlaying ? 'pause_circle' : 'play_circle';
+    }
+
+    function updateVolumeUI() {
+        volumeLevel.style.width = `${volume}%`;
+        volumeHandle.style.left = `${volume}%`;
+    }
+
+
+    audio.addEventListener('timeupdate', () => {
+        const percentage = (audio.currentTime / audio.duration) * 100;
+        progressBar.style.width = `${percentage}%`;
+        progressHandle.style.left = `${percentage}%`;
+        timeElapsed.textContent = formatTime(audio.currentTime);
+    });
+
+    audio.addEventListener('loadedmetadata', () => {
+        timeTotal.textContent = formatTime(audio.duration);
+    });
+
+    audio.addEventListener('ended', () => {
+        if (isRepeat) {
+            playSong(currentSongId); 
+        } else if (isShuffle) {
+            let nextId;
+            do {
+                nextId = Math.floor(Math.random() * songs.length) + 1;
+            } while (nextId === currentSongId); 
+            playSong(nextId); 
+        } else {
+            const nextSongId = currentSongId < songs.length ? currentSongId + 1 : 1;
+            playSong(nextSongId); 
+        }
+    });
+
+
+    nextBtn.addEventListener('click', () => {
+        if (currentSongId !== null) {
+            let nextId = currentSongId < songs.length ? currentSongId + 1 : 1;
+            playSong(nextId);
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (currentSongId !== null) {
+            let prevId = currentSongId > 1 ? currentSongId - 1 : songs.length;
+            playSong(prevId);
+        }
+    });
+
+
+    function formatTime(totalSeconds) {
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = Math.floor(totalSeconds % 60);
+        return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+
+    const menuButton = document.createElement('button');
+    menuButton.classList.add('menu-button');
+    menuButton.innerHTML = '<span class="material-symbols-outlined">menu</span>';
+    document.querySelector('.topbar')?.prepend(menuButton);
 });
-
-function loadSong(index) {
-  const { name, artist, src, cover: thumb } = songsList[index];
-  artistName.innerText = artist;
-  musicName.innerText = name;
-  song.src = src;
-  cover.style.backgroundImage = `url(${thumb})`;
-}
-
-function updateProgress() {
-  if (song.duration) {
-      const pos = (song.currentTime / song.duration) * 100;
-      fillBar.style.width = `${pos}%`;
-
-      const duration = formatTime(song.duration);
-      const currentTime = formatTime(song.currentTime);
-      time.innerText = `${currentTime} - ${duration}`;
-
-  }
-}
-
-function formatTime(seconds) {
-  const minutes = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
-}
-
-function togglePlayPause() {
-  if (playing) {
-      song.pause();
-  } else {
-      song.play();
-  }
-  playing = !playing;
-  playBtn.classList.toggle('fa-pause', playing);
-  playBtn.classList.toggle('fa-play', !playing);
-  cover.classList.toggle('active', playing);
-}
-
-function nextSong() {
-  currentSong = (currentSong + 1) % songsList.length;
-  playMusic();
-}
-
-function prevSong() {
-  currentSong = (currentSong - 1 + songsList.length) % songsList.length;
-  playMusic();
-}
-
-function playMusic() {
-  loadSong(currentSong);
-  song.play();
-  playing = true;
-  playBtn.classList.add('fa-pause');
-  playBtn.classList.remove('fa-play');
-  cover.classList.add('active');
-}
-
-function seek(e) {
-  const pos = (e.offsetX / prog.clientWidth) * song.duration;
-  song.currentTime = pos;
-}
