@@ -1,35 +1,269 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
-  <title>Mini_audio_project</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoTune</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 <body>
-  <div class="container">
-    <div class="song-info">
-      <div class="artist-name">name</div>
-      <div class="song-name">song name</div>
-      <div class="progress-bar">
-        <div class="fill-bar"></div>
-      </div>
-      <div class="time">0:00 - 0:00</div>
-    </div>
-    <div class="disk">
-      <div class="circle"></div>
-      <div id="cover" class="cover" ></div>
-    </div>
-    <div class="controls">
-      <i id="prev" class=" prev-btn fa-solid fa-backward"></i>
-      <i id="play" class="play-btn fa-solid fa-play"></i>
-      <i id="next" class="next-btn fa-solid fa-forward"></i>
-    </div>
-  </div>
+    <div class="music-player  ">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <h2>EchoTune</h2>
+            </div>
+            <nav class="sidebar-nav ">
+                <ul>
+                    <li class="active">
+                        <span class="material-symbols-outlined">home</span>
+                        <span>Home</span>
+                    </li>
+                    <li>
+                        <span class="material-symbols-outlined">search</span>
+                        <span>Search</span>
+                    </li>
+                    <li>
+                        <span class="material-symbols-outlined">library_music</span>
+                        <span>Your Library</span>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-actions ">
+                <div class="action-item">
+                    <span class="material-symbols-outlined">add_box</span>
+                    <span>Create Playlist</span>
+                </div>
+                <div class="action-item">
+                    <span class="material-symbols-outlined">favorite</span>
+                    <span>Liked Songs</span>
+                </div>
+            </div>
+            <div class="divider"></div>
+        
+           
+        </div>
 
+        <!-- Main Content -->
+        <div class="main-content ">
+            <div class="topbar ">
+                
+                <div class="user-menu">
+                    <button class="user-btn">
+                        <span class="material-symbols-outlined">account_circle</span>
+                        <span>Umesh Doe</span>
+                       
+                    </button>
+                </div>
+            </div>
 
+            <div class="content-scroll  ">
+                <section class="greeting-section songs-section">
+                    <div class="section-header">
+                        <h2>Recently Played</h2>
+                    </div>
+                    <div class="songs-table">
+                        <div class="song-header">
+                            <div class="song-number">#</div>
+                            <div class="song-title">Title</div>
+                            <div class="song-album">Album</div>
+                            <div class="song-duration">
+                                <span class="material-symbols-outlined">schedule</span>
+                            </div>
+                        </div>
+                        <div class="song-row" data-song-id="1">
+                            <div class="song-number">1</div>
+                            <div class="song-title">
+                                <img src="/assets/1.jpg" alt="Song">
+                                <div class="song-info">
+                                    <div class="song-name">As It Was</div>
+                                    <div class="song-artist">Harry Styles</div>
+                                </div>
+                            </div>
+                            <div class="song-album">Harry's House</div>
+                            <div class="song-duration">2:47</div>
+                        </div>
+                        <div class="song-row" data-song-id="2">
+                            <div class="song-number">2</div>
+                            <div class="song-title">
+                                <img src="/assets/2.jpg" alt="Song">
+                                <div class="song-info">
+                                    <div class="song-name">Blinding Lights</div>
+                                    <div class="song-artist">The Weeknd</div>
+                                </div>
+                            </div>
+                            <div class="song-album">After Hours</div>
+                            <div class="song-duration">3:20</div>
+                        </div>
+                        <div class="song-row" data-song-id="3">
+                            <div class="song-number">3</div>
+                            <div class="song-title">
+                                <img src="/assets/3.jpg" alt="Song">
+                                <div class="song-info">
+                                    <div class="song-name">Bad Habit</div>
+                                    <div class="song-artist">Steve Lacy</div>
+                                </div>
+                            </div>
+                            <div class="song-album">Gemini Rights</div>
+                            <div class="song-duration">3:52</div>
+                        </div>
+                        <div class="song-row" data-song-id="4">
+                            <div class="song-number">4</div>
+                            <div class="song-title">
+                                <img src="/assets/4.JPG" alt="Song">
+                                <div class="song-info">
+                                    <div class="song-name">Heat Waves</div>
+                                    <div class="song-artist">Glass Animals</div>
+                                </div>
+                            </div>
+                            <div class="song-album">Dreamland</div>
+                            <div class="song-duration">3:59</div>
+                        </div>
+                        <div class="song-row" data-song-id="5">
+                            <div class="song-number">5</div>
+                            <div class="song-title">
+                                <img src="/assets/5.jpg" alt="Song">
+                                <div class="song-info">
+                                    <div class="song-name">Stay</div>
+                                    <div class="song-artist">The Kid LAROI, Justin Bieber</div>
+                                </div>
+                            </div>
+                            <div class="song-album">OVER YOU</div>
+                            <div class="song-duration">2:21</div>
+                        </div>
+                    </div>
+                </section>
 
-  <script src="script.js"></script>
+                
+
+                <section class="featu -section">
+                    <div class="section-header  ">
+                        <h2>Made For You</h2>
+                        <a href="#" class="see-all">See all</a>
+                    </div>
+                    <div class="playlist-grid  ">
+                        <div class="playlist-card">
+                            <div class="playlist-img-container">
+                                <img src="/assets/1.jpg" alt="Playlist">
+                                <button class="play-button">
+                                    <span class="material-symbols-outlined">play_circle</span>
+                                </button>
+                            </div>
+                            <h3>Today's Top Hits</h3>
+                            <p>Jung Kook is on top of the Hottest 50!</p>
+                        </div>
+                        <div class="playlist-card">
+                            <div class="playlist-img-container">
+                                <img src="/assets/2.jpg" alt="Playlist">
+                                <button class="play-button">
+                                    <span class="material-symbols-outlined">play_circle</span>
+                                </button>
+                            </div>
+                            <h3>RapCaviar</h3>
+                            <p>New music from Drake, Kendrick Lamar and more</p>
+                        </div>
+                        <div class="playlist-card">
+                            <div class="playlist-img-container">
+                                <img src="/assets/3.jpg" alt="Playlist">
+                                <button class="play-button">
+                                    <span class="material-symbols-outlined">play_circle</span>
+                                </button>
+                            </div>
+                            <h3>All Out 2010s</h3>
+                            <p>The biggest songs of the 2010s</p>
+                        </div>
+                        <div class="playlist-card">
+                            <div class="playlist-img-container">
+                                <img src="/assets/4.JPG" alt="Playlist">
+                                <button class="play-button">
+                                    <span class="material-symbols-outlined">play_circle</span>
+                                </button>
+                            </div>
+                            <h3>Rock Classics</h3>
+                            <p>Rock legends & epic songs</p>
+                        </div>
+                        <div class="playlist-card">
+                            <div class="playlist-img-container">
+                                <img src="/assets/5.jpg" alt="Playlist">
+                                <button class="play-button">
+                                    <span class="material-symbols-outlined">play_circle</span>
+                                </button>
+                            </div>
+                            <h3>Chill Hits</h3>
+                            <p>Kick back to the best new and recent chill hits</p>
+                        </div>
+                        <div class="playlist-card">
+                            <div class="playlist-img-container">
+                                <img src="/assets/6.jpg" alt="Playlist">
+                                <button class="play-button">
+                                    <span class="material-symbols-outlined">play_circle</span>
+                                </button>
+                            </div>
+                            <h3>Chill Hits</h3>
+                            <p>Kick back to the best new and recent chill hits</p>
+                        </div>
+                    </div>
+                </section>
+
+                
+            </div>
+        </div>
+
+        <!-- Player Controls -->
+        <div class="player-controls  ">
+            <div class="now-playing ">
+                <img src="/assets/OIP.jpeg" alt="Current Song" id="current-song-img">
+                <div class="song-details">
+                    <div class="current-song-name" id="current-song-name">Not Playing</div>
+                    <div class="current-song-artist" id="current-song-artist"></div>
+                </div>
+                <button class="like-button">
+                    <span class="material-symbols-outlined">favorite_border</span>
+                </button>
+            </div>
+
+            <div class="player-center  ">
+                <div class="player-buttons">
+                    <button class="player-btn" id="shuffle-btn">
+                        <span class="material-symbols-outlined">shuffle</span>
+                    </button>
+                    <button class="player-btn" id="prev-btn">
+                        <span class="material-symbols-outlined">skip_previous</span>
+                    </button>
+                    <button class="play-pause-btn" id="play-pause-btn">
+                        <span class="material-symbols-outlined">play_circle</span>
+                    </button>
+                    <button class="player-btn" id="next-btn">
+                        <span class="material-symbols-outlined">skip_next</span>
+                    </button>
+                    <button class="player-btn" id="repeat-btn">
+                        <span class="material-symbols-outlined">repeat</span>
+                    </button>
+                </div>
+                <div class="progress-container">
+                    <span class="time-elapsed" id="time-elapsed">0:00</span>
+                    <div class="progress-bar">
+                        <div class="progress" id="progress-bar"></div>
+                        <div class="progress-handle" id="progress-handle"></div>
+                    </div>
+                    <span class="time-total" id="time-total">0:00</span>
+                </div>
+            </div>
+
+            <div class="player-right">
+               
+                <div class="volume-container">
+                    <span class="material-symbols-outlined">volume_up</span>
+                    <div class="volume-bar">
+                        <div class="volume-level" id="volume-level"></div>
+                        <div class="volume-handle" id="volume-handle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <audio class=" " id="audio-player" src="/assets/1.mp3"></audio>
+    <script src="script.js"></script>
 </body>
 </html>
